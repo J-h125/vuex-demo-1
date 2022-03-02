@@ -1,28 +1,42 @@
 <template>
   <div id="app">
-    <img alt="Vue logo" src="./assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    加多少：<input v-model="num" type="text">
+    <br>
+    {{count}}
+    <br>
+    doubleCount:{{doubleCount}}
+    <button @click="add">加1</button>
   </div>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
-
+import { mapGetters } from 'vuex'
 export default {
   name: 'App',
   components: {
-    HelloWorld
+  },
+  data(){
+    return{
+      num: 1,
+    }
+  },
+  computed:{
+     count:function(){
+       return this.$store.state.count
+     },
+     ...mapGetters({
+       doubleCount : 'doubleCount'
+     })
+  },
+  methods: {
+    add(){
+      console.log('add')
+      // this.$store.commit('increment',this.num)
+      this.$store.dispatch('increment', Number(this.num))
+    }
   }
 }
 </script>
 
 <style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 60px;
-}
 </style>
